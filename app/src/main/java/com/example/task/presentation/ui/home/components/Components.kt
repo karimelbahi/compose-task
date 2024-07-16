@@ -39,9 +39,9 @@ import com.example.task.data.api.model.Meal
 
 
 @Composable
-fun CategoryComponent(category: Category, onClick: (Category) -> Unit = {}) {
+fun CategoryComponent(category: Category, modifier: Modifier = Modifier, onClick: (Category) -> Unit = {}) {
     Column(
-        Modifier
+        modifier
             .wrapContentSize()
             .background(
                 Color(0xfff8f8f8), shape = RoundedCornerShape(16.dp)
@@ -86,9 +86,9 @@ private fun CategoryComponentPreview() {
 }
 
 @Composable
-fun MealComponent(meal: Meal, onClick: () -> Unit = {}) {
+fun MealComponent(meal: Meal, modifier: Modifier = Modifier, onClick: () -> Unit = {}) {
     Column(
-        Modifier
+        modifier = modifier
             .fillMaxWidth()
             .padding(top = 8.dp)
             .background(Color(0xfff8f8f8), shape = RoundedCornerShape(16.dp))
@@ -185,8 +185,8 @@ private fun MealComponentPreview() {
 
 
 @Composable
-fun HeaderSectionComponent(title: String) {
-    Row(verticalAlignment = Alignment.CenterVertically) {
+fun HeaderSectionComponent(title: String, modifier: Modifier = Modifier) {
+    Row(modifier= modifier, verticalAlignment = Alignment.CenterVertically) {
         Box(
             modifier = Modifier
                 .width(2.dp)
