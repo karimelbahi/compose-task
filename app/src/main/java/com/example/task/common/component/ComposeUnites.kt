@@ -26,6 +26,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -44,6 +45,8 @@ import com.example.task.ui.theme.colorBlack19
 import com.example.task.ui.theme.colorNotActiveButtonBg
 import com.example.task.ui.theme.colorNotActiveButtonTxt
 import com.example.task.ui.theme.colorYellow
+
+const val LOADING_DIALOG_TAG = "LoadingIndicator"
 
 @Composable
 fun LoadingDialog(
@@ -66,6 +69,7 @@ fun DefaultLoading() {
     ) {
 
         CircularProgressIndicator(
+            modifier = Modifier.testTag(LOADING_DIALOG_TAG),
             color = colorYellow
         )
     }
