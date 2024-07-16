@@ -36,3 +36,5 @@ val fakeMealDetails = MealDetails(strInstructions = "Instructions for Meal 1", s
 const val fakeCategoryName = "Beef"
 
 const val fakeMealID = "52772"
+
+const val errorMessage = "Error message"

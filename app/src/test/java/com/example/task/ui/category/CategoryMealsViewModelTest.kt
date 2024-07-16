@@ -6,6 +6,7 @@ import com.example.task.presentation.ui.category.CategoryMealsUseCase
 import com.example.task.presentation.ui.category.CategoryMealsViewModel
 import com.example.task.presentation.utils.Resource
 import com.example.task.utils.MainCoroutineRule
+import com.example.task.utils.errorMessage
 import com.example.task.utils.fakeCategoryName
 import com.example.task.utils.fakeMeals
 import com.nhaarman.mockitokotlin2.whenever
@@ -114,7 +115,9 @@ class CategoryMealsViewModelTest {
 
         assertEquals(true, latestState.loading)
         assertEquals(false, latestState.isSuccess)
+        assertEquals(null, latestState.errorMessage)
         assertTrue(latestState.meals.isEmpty())
+
         job.cancel()
     }
 
@@ -170,7 +173,7 @@ class CategoryMealsViewModelTest {
         whenever(categoryMealsUseCase.getCategoryMeals(fakeCategoryName)).thenReturn(
             flowOf(
                 Resource.error(
-                    msg = "error",
+                    msg = errorMessage,
                     data = null
                 )
             )
