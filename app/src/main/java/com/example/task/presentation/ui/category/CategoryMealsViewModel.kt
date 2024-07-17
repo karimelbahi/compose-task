@@ -20,7 +20,7 @@ class CategoryMealsViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(CategoriesState())
-    val state  : StateFlow<CategoriesState> = _state
+    val state  = _state as StateFlow<CategoriesState>
 
     fun onEvent(intent: CategoriesScreenIntent) {
         when (intent) {

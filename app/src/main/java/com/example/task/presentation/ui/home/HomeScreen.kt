@@ -32,7 +32,7 @@ import com.example.task.ui.theme.MainMargin
 import kotlinx.coroutines.flow.MutableStateFlow
 
 @Composable
-fun HomeScreen(navController: NavController, state: MutableStateFlow<HomeState>) {
+fun HomeScreen(navController: NavController, state: StateFlow<HomeState>) {
 
     val stateValue = state.collectAsStateWithLifecycle().value
     val scrollState = rememberScrollState()
