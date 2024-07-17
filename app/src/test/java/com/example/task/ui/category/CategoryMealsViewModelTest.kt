@@ -89,9 +89,10 @@ class CategoryMealsViewModelTest {
      * - Uses advanceUntilIdle to ensure all coroutines have finished.
      * - Asserts that the first state has loading set to true, isSuccess is false, and meals is empty.
      */
+    //When_StateUnderTest_Expect_ExpectedBehavior
     @OptIn(ExperimentalCoroutinesApi::class)
     @Test
-    fun getCategories_load_emitLoadState(): Unit = runTest {
+    fun `when server loading expect display loader`(): Unit = runTest {
         whenever(categoryMealsUseCase.getCategoryMeals(fakeCategoryName)).thenReturn(
             flowOf(
                 Resource.loading(
@@ -131,7 +132,8 @@ class CategoryMealsViewModelTest {
      */
     @OptIn(ExperimentalCoroutinesApi::class)
     @Test
-    fun getCategories_success_emitSuccessStateWithCategoryList(): Unit = runTest {
+    fun `when server return valid data expect return category list`(): Unit = runTest {
+
         whenever(categoryMealsUseCase.getCategoryMeals(fakeCategoryName)).thenReturn(
             flowOf(
                 Resource.success(
@@ -169,7 +171,8 @@ class CategoryMealsViewModelTest {
      */
     @OptIn(ExperimentalCoroutinesApi::class)
     @Test
-    fun getCategories_failure_emitErrorState(): Unit = runTest {
+    fun `when server return failure expect get error state`(): Unit = runTest {
+
         whenever(categoryMealsUseCase.getCategoryMeals(fakeCategoryName)).thenReturn(
             flowOf(
                 Resource.error(
