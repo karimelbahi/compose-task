@@ -30,6 +30,7 @@ import com.example.task.presentation.ui.home.components.HeaderSectionComponent
 import com.example.task.presentation.ui.home.components.MealComponent
 import com.example.task.ui.theme.MainMargin
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 
 @Composable
 fun HomeScreen(navController: NavController, state: StateFlow<HomeState>) {
