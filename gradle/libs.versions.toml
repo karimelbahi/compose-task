@@ -43,6 +43,8 @@ coil = "2.4.0"
 arch_core_testing = "2.2.0"
 mokito_kotlin= "2.2.0"
 kotlinx_coroutines = "1.7.2"
+appcompat = "1.7.0"
+material = "1.12.0"
 
 
 [libraries]
@@ -107,6 +109,8 @@ chuckerteam = { module = "com.github.chuckerteam.chucker:library", version.ref =
 chuckerteam_no_op = { module = "com.github.chuckerteam.chucker:library-no-op", version.ref = "chucker" }
 
 coil = { group = "io.coil-kt", name = "coil-compose", version.ref = "coil" }
+androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
+material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 
 
 [plugins]
@@ -114,6 +118,7 @@ android-application = { id = "com.android.application", version.ref = "agp" }
 jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 jetbrains-kotlin-serialization = { id ="org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin"}
 hilt = { id = "com.google.dagger.hilt.android", version.ref = "daggerHiltVersion" }
+android-library = { id = "com.android.library", version.ref = "agp" }
 
 
 

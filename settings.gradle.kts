@@ -21,4 +21,9 @@ dependencyResolutionManagement {
 
 rootProject.name = "task"
 include(":app")
- 
+include(":feature:home")
+include(":feature:category")
+include(":common")
+include(":design")
+include(":navigation")
+include(":network")
