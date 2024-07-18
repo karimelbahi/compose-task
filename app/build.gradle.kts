@@ -56,6 +56,12 @@ android {
 
 dependencies {
 
+    implementation(project(":feature:home"))
+    implementation(project(":feature:category"))
+    implementation(project(":navigation"))
+    implementation(project(":design"))
+    implementation(project(":common"))
+
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
@@ -75,46 +81,9 @@ dependencies {
     testImplementation(libs.mockitoKotlin2)
     testImplementation(libs.kotlinxCoroutinesTest)
 
-    // Dagger - Hilt
+    // Dependency Injection - Hilt
     implementation(libs.dagger.hiltandroid)
     kapt(libs.dagger.hiltandroidcompiler)
-    kapt(libs.dagger.hiltCompiler)
     implementation(libs.dagger.hiltNavigation)
-
-    // Coroutines
-    implementation(libs.coroutines.android)
-    implementation(libs.coroutines.core)
-
-    // Compose dependencies
-    implementation(libs.androidx.navigationcompose)
-    implementation(libs.androidx.foundation)
-    implementation(libs.androidx.core.ktx)
-    implementation(libs.kotlinx.serialization.json)
-    implementation(libs.androidx.lifecycleviewmodelcompose)
-    implementation(libs.androidx.lifecycleruntimecompose)
-
-    // Retrofit
-    implementation(libs.gson)
-    implementation(libs.retrofit)
-    implementation(libs.retrofit.gson.converter)
-    implementation(libs.sqaure.logger)
-    implementation(libs.okhttp3)
-
-    // data store
-    implementation(libs.androidx.datastorepreferences)
-    implementation(libs.androidx.datastorepreferencescore)
-
-    // data store
-    implementation(libs.room.ktx)
-    kapt(libs.room.complier)
-    implementation(libs.room.paging)
-
-
-    /// chucker team
-    debugImplementation(libs.chuckerteam)
-    releaseImplementation(libs.chuckerteam.no.op)
-
-    // coil
-    implementation(libs.coil)
 
 }

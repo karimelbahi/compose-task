@@ -10,6 +10,13 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
+            <option value="$PROJECT_DIR$/common" />
+            <option value="$PROJECT_DIR$/design" />
+            <option value="$PROJECT_DIR$/feature" />
+            <option value="$PROJECT_DIR$/feature/category" />
+            <option value="$PROJECT_DIR$/feature/home" />
+            <option value="$PROJECT_DIR$/navigation" />
+            <option value="$PROJECT_DIR$/network" />
           </set>
         </option>
         <option name="resolveExternalAnnotations" value="false" />

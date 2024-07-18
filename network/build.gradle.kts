@@ -1,6 +1,8 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.jetbrains.kotlin.android)
+    id("com.google.dagger.hilt.android")
+    id("kotlin-kapt")
 }
 
 android {
@@ -30,14 +32,27 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
+    buildFeatures {
+        compose = true
+    }
+    composeOptions {
+        kotlinCompilerExtensionVersion = "1.5.1"
+    }
 }
 
 dependencies {
 
-    implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.appcompat)
-    implementation(libs.material)
-    testImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.junit)
-    androidTestImplementation(libs.androidx.espresso.core)
+    implementation(project(":common"))
+
+    // Dagger - Hilt
+    implementation(libs.dagger.hiltandroid)
+    kapt(libs.dagger.hiltandroidcompiler)
+    implementation(libs.dagger.hiltNavigation)
+
+    // Retrofit
+    implementation(libs.gson)
+    implementation(libs.retrofit)
+    implementation(libs.retrofit.gson.converter)
+    implementation(libs.sqaure.logger)
+    implementation(libs.okhttp3)
 }

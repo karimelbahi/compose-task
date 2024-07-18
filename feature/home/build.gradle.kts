@@ -1,6 +1,8 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.jetbrains.kotlin.android)
+    id("com.google.dagger.hilt.android")
+    id("kotlin-kapt")
 }
 
 android {
@@ -30,9 +32,19 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
+    buildFeatures {
+        compose = true
+    }
+    composeOptions {
+        kotlinCompilerExtensionVersion = "1.5.1"
+    }
 }
 
 dependencies {
+
+    implementation(project(":common"))
+    implementation(project(":design"))
+    implementation(project(":network"))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
@@ -40,4 +52,33 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+
+    // Design
+    implementation(libs.androidx.ui.tooling.preview)
+    implementation(libs.androidx.material3)
+
+    // Dependency Injection - Hilt
+    implementation(libs.dagger.hiltandroid)
+    kapt(libs.dagger.hiltandroidcompiler)
+    implementation(libs.dagger.hiltNavigation)
+
+    // Coroutines
+    implementation(libs.coroutines.android)
+    implementation(libs.coroutines.core)
+
+    // Compose dependencies
+    implementation(libs.androidx.navigationcompose)
+    implementation(libs.androidx.foundation)
+    implementation(libs.androidx.core.ktx)
+    implementation(libs.kotlinx.serialization.json)
+    implementation(libs.androidx.lifecycleviewmodelcompose)
+    implementation(libs.androidx.lifecycleruntimecompose)
+
+    // Retrofit
+    implementation(libs.gson)
+    implementation(libs.retrofit)
+    implementation(libs.retrofit.gson.converter)
+    implementation(libs.sqaure.logger)
+    implementation(libs.okhttp3)
+
 }
