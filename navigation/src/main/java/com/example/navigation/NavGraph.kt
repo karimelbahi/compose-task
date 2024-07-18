@@ -6,7 +6,7 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
-import com.example.common.util.Screen
+import com.example.common.util.Screens
 import com.feature.category.presentation.navigation.categoryScreen
 import com.feature.home.presentation.navigation.homeScreen
 
@@ -17,7 +17,7 @@ fun NavGraph(navController: NavHostController) {
 
     NavHost(
         navController = navController,
-        startDestination = Screen.HomeScreen,
+        startDestination = Screens.HomeScreens,
         enterTransition = {
             fadeIn(
                 animationSpec = tween(TRANSITION_DURATION)

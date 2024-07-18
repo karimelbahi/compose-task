@@ -21,7 +21,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.design.component.utils.MainMargin
-import com.example.common.util.Screen
+import com.example.common.util.Screens
 import com.example.design.component.components.LoadingDialog
 import com.example.design.component.components.VerticalGrid
 import com.example.design.component.components.ignoreHorizontalParentPadding
@@ -60,7 +60,7 @@ fun HomeScreen(navController: NavController, state: StateFlow<HomeState>) {
                     CategoryComponent(it) {
                         println("karimDebug, $  , HomeScreen , 61")
                         navController.navigate(
-                            Screen.CategoriesScreen(
+                            Screens.CategoriesScreens(
                                 categoryName = it.categoryName,
                                 categoryUrl = it.categoryUrl
                             )
