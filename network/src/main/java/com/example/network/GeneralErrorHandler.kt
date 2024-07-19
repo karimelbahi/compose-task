@@ -20,7 +20,7 @@ class GeneralErrorHandler @Inject constructor(private val resourcesResolver: Res
                     HttpURLConnection.HTTP_FORBIDDEN -> ErrorEntity.AccessDenied
                     // unavailable service
                     HttpURLConnection.HTTP_UNAVAILABLE -> ErrorEntity.ServiceUnavailable
-                    //add any other error type here
+                    // add any other error type here
                     // all the others will be treated as unknown error
                     else -> ErrorEntity.Unknown
                 }
