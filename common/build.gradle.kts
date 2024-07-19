@@ -43,6 +43,8 @@ android {
 
 dependencies {
 
+    implementation(project(":network"))
+
     // Dependency Injection - Hilt
     implementation(libs.dagger.hiltandroid)
     kapt(libs.dagger.hiltandroidcompiler)

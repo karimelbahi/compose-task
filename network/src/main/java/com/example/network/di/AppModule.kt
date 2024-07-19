@@ -1,6 +1,6 @@
 package com.example.network.di
 
-import com.example.common.util.Constants.BASE_URL
+import com.example.network.utils.Constants.BASE_URL
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

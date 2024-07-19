@@ -42,8 +42,6 @@ android {
 
 dependencies {
 
-    implementation(project(":common"))
-
     // Dagger - Hilt
     implementation(libs.dagger.hiltandroid)
     kapt(libs.dagger.hiltandroidcompiler)

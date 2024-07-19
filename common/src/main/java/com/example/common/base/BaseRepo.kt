@@ -1,4 +1,4 @@
-package com.feature.category.data.repo.base
+package com.example.common.base
 
 import com.example.common.Resource
 import com.example.network.ErrorEntity
