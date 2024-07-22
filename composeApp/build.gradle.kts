@@ -1,3 +1,4 @@
+import org.jetbrains.compose.ExperimentalComposeLibrary
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
@@ -7,6 +8,11 @@ plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsCompose)
     alias(libs.plugins.compose.compiler)
+    // TODO: need to covert to aliased plugin
+    kotlin("plugin.serialization") version libs.versions.kotlin //decompose step2
+
+    id("app.cash.sqldelight") version libs.versions.sqlite.driver //sqldelight step1
+
 }
 
 kotlin {
@@ -36,6 +42,10 @@ kotlin {
         androidMain.dependencies {
             implementation(compose.preview)
             implementation(libs.androidx.activity.compose)
+
+            //decompose step3
+            implementation(libs.com.arkivanov.decompose.decompose)
+            implementation(libs.decompose.extensions.compose)
         }
         commonMain.dependencies {
             implementation(compose.runtime)
@@ -44,9 +54,62 @@ kotlin {
             implementation(compose.ui)
             implementation(compose.components.resources)
             implementation(compose.components.uiToolingPreview)
+
+            implementation(compose.material3)
+            @OptIn(ExperimentalComposeLibrary::class)
+            implementation(compose.components.resources)
+            implementation(libs.kotlinx.coroutines.core)
+            implementation(libs.kotlinx.serialization.json)
+
+            implementation(libs.ktor.client.core)
+            implementation(libs.ktor.client.content.negotiation)
+            implementation(libs.ktor.serialization.kotlinx.json)
+
+            implementation(libs.mvvm.core)
+
+            api(libs.image.loader)
+
+
+            implementation(libs.com.arkivanov.decompose.decompose)
+            implementation(libs.decompose.extensions.compose)
+            //decompose step1
+
+            //koin step1
+            implementation(libs.koin.core)
+
+            implementation(libs.material3.windowsizeclass.multiplatform)
         }
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)
+            implementation(libs.sqlite.driver)
+
+        }
+        androidMain.dependencies {
+            implementation(libs.ktor.client.android)
+
+            //koin step2
+            implementation(libs.koin.android)
+
+            implementation(libs.android.driver)
+        }
+
+        iosMain.dependencies {
+            implementation(libs.ktor.client.darwin)
+
+            api(libs.com.arkivanov.decompose.decompose)
+            api(libs.essenty.lifecycle)
+
+            implementation(libs.native.driver)
+
+        }
+
+        jsMain.dependencies {
+
+
+            implementation(npm("@cashapp/sqldelight-sqljs-worker", libs.versions.sqlite.driver.get()))
+            implementation(npm("sql.js", "1.8.0"))
+            implementation(libs.web.worker.driver)
+            implementation(devNpm("copy-webpack-plugin", "9.1.0"))
         }
     }
 }
