@@ -1,0 +1,23 @@
+<resources>
+    <string name="app_name">CMP</string>
+    <string name="description">Description</string>
+    <string name="categories">Categories</string>
+    <string name="meal">Meal</string>
+    <string name="beef_meals">Beef Meals</string>
+    <string name="category_label">Category:</string>
+    <string name="origin_label">Origin:</string>
+    <string name="dinner">Dinner</string>
+    <string name="dessert">Dessert</string>
+    <string name="pudding">Pudding</string>
+    <string name="chocolate">Chocolate</string>
+    <string name="beef">Beef</string>
+    <string name="irish">Irish</string>
+    <string name="category">Category</string>
+    <string name="item_description_here">Item description here</string>
+    <string name="show_more">Show More</string>
+    <string name="ingredients">Ingredients : </string>
+    <string name="measures">Measures : </string>
+    <string name="recipe">Recipe</string>
+    <string name="categories_tile">Categories</string>
+    <string name="beef_meals_tile">Beef Meals</string>
+</resources>

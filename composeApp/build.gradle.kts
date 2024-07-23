@@ -78,6 +78,16 @@ kotlin {
             implementation(libs.koin.core)
 
             implementation(libs.material3.windowsizeclass.multiplatform)
+
+            implementation(libs.androidx.ui.tooling.preview)
+
+            // coil
+            implementation(libs.coil)
+
+            implementation(libs.androidx.lifecycle.runtime.ktx)
+
+            implementation(compose.components.resources)
+
         }
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)
@@ -91,6 +101,9 @@ kotlin {
             implementation(libs.koin.android)
 
             implementation(libs.android.driver)
+
+            implementation(libs.coil)
+
         }
 
         iosMain.dependencies {
@@ -149,6 +162,9 @@ android {
     dependencies {
         debugImplementation(compose.uiTooling)
     }
+}
+dependencies {
+    implementation(libs.androidx.annotation.jvm)
 }
 
 compose.desktop {
