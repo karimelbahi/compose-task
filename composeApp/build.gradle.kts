@@ -93,9 +93,6 @@ kotlin {
             implementation(libs.navigator.koin)
             implementation(libs.koin.core)
 
-            api(libs.preCompose)
-            api(libs.preCompose.viewmodel)
-
         }
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)
