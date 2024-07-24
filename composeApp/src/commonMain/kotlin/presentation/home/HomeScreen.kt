@@ -31,12 +31,11 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 import presentation.category.CategoriesScreen
 import presentation.category.CategoryMealsViewModel
 
-class HomeScreen() : Screen {
+class HomeScreen(private val viewModel: HomeViewModel) : Screen {
 
     @Composable
     override fun Content() {
     val navigator = LocalNavigator.currentOrThrow
-        val viewModel = HomeViewModel()
     val state = viewModel.state
     val stateValue = state.collectAsState().value
     val scrollState = rememberScrollState()
@@ -80,5 +79,5 @@ class HomeScreen() : Screen {
 @Preview()
 @Composable
 private fun HomeScreenPreview() {
-    HomeScreen()
+    HomeScreen(HomeViewModel())
 }

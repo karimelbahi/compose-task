@@ -50,7 +50,6 @@ data class CategoriesScreen(
     override fun Content() {
 
         val navigator = LocalNavigator.currentOrThrow
-        // TODO:(karim)
         val stateValue = state.collectAsState().value
         val scrollState = rememberScrollState()
 
