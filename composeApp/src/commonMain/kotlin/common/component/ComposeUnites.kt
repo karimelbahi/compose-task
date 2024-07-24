@@ -246,7 +246,7 @@ private fun VerticalGridPreview() {
 @Composable
 fun MyToolbarArrowWithTitle(
     title: String,
-    drawableResource: DrawableResource? = null,
+    drawableResource: DrawableResource = Res.drawable.ic_baseline_arrow_back_24,
     modifier: Modifier = Modifier,
     titleContentAlignment: Alignment = Alignment.Center,
     titleColor: Color = Color(0xFF191919),

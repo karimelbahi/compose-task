@@ -1,4 +1,4 @@
-package home
+package presentation.home
 
 import data.api.model.CategoriesResponse
 import data.api.model.MealsResponse

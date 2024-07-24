@@ -39,14 +39,7 @@ kotlin {
     sourceSets {
         val desktopMain by getting
         
-        androidMain.dependencies {
-            implementation(compose.preview)
-            implementation(libs.androidx.activity.compose)
 
-            //decompose step3
-            implementation(libs.com.arkivanov.decompose.decompose)
-            implementation(libs.decompose.extensions.compose)
-        }
         commonMain.dependencies {
             implementation(compose.runtime)
             implementation(compose.foundation)
@@ -56,7 +49,6 @@ kotlin {
             implementation(compose.components.uiToolingPreview)
 
             implementation(compose.material3)
-            @OptIn(ExperimentalComposeLibrary::class)
             implementation(compose.components.resources)
             implementation(libs.kotlinx.coroutines.core)
             implementation(libs.kotlinx.serialization.json)
@@ -86,7 +78,12 @@ kotlin {
 
             implementation(libs.androidx.lifecycle.runtime.ktx)
 
-            implementation(compose.components.resources)
+            // voyager
+            implementation(libs.navigator)
+            implementation(libs.navigator.screen.model)
+            implementation(libs.navigator.transitions)
+            implementation(libs.navigator.koin)
+            implementation(libs.koin.core)
 
         }
         desktopMain.dependencies {
@@ -100,9 +97,10 @@ kotlin {
             //koin step2
             implementation(libs.koin.android)
 
-            implementation(libs.android.driver)
+            implementation(libs.androidx.activity.compose)
 
             implementation(libs.coil)
+            implementation(libs.androidx.ui.tooling.preview)
 
         }
 
@@ -111,8 +109,6 @@ kotlin {
 
             api(libs.com.arkivanov.decompose.decompose)
             api(libs.essenty.lifecycle)
-
-            implementation(libs.native.driver)
 
         }
 

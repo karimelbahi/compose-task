@@ -1,4 +1,4 @@
-package home
+package presentation.home
 
 import MyImageWithCoil
 import MyTwoTextStartStartRow
@@ -31,7 +31,6 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import cmp.composeapp.generated.resources.Res
-import cmp.composeapp.generated.resources.app_name
 import cmp.composeapp.generated.resources.beef
 import cmp.composeapp.generated.resources.category_label
 import cmp.composeapp.generated.resources.chocolate

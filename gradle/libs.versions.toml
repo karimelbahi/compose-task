@@ -4,6 +4,8 @@ android-compileSdk = "34"
 android-minSdk = "24"
 android-targetSdk = "34"
 androidx-activityCompose = "1.9.0"
+navigationcompose="2.8.0-alpha08"
+lifecycleviewmodelcompose="2.6.2"
 androidx-appcompat = "1.7.0"
 androidx-constraintlayout = "2.1.4"
 androidx-core-ktx = "1.13.1"
@@ -29,6 +31,7 @@ sqlite-driver = "2.0.2"
 coil = "2.4.0"
 lifecycleRuntimeKtx = "2.6.1"
 annotationJvm = "1.8.0"
+voyager = "1.0.0"
 
 [libraries]
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
@@ -41,6 +44,12 @@ androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version
 androidx-material = { group = "com.google.android.material", name = "material", version.ref = "androidx-material" }
 androidx-constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "androidx-constraintlayout" }
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "androidx-activityCompose" }
+# compose
+androidx-navigationcompose = { group = "androidx.navigation", name = "navigation-compose", version.ref = "navigationcompose" }
+androidx-lifecycleviewmodelcompose = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-compose", version.ref = "lifecycleviewmodelcompose" }
+androidx-lifecycleruntimecompose= {group = "androidx.lifecycle",name = "lifecycle-runtime-compose"}
+
+
 
 androidx-lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "lifecycleRuntimeKtx" }
 android-driver = { module = "app.cash.sqldelight:android-driver", version.ref = "sqlite-driver" }
@@ -70,6 +79,10 @@ web-worker-driver = { module = "app.cash.sqldelight:web-worker-driver", version.
 androidx-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview" }
 coil = { group = "io.coil-kt", name = "coil-compose", version.ref = "coil" }
 androidx-annotation-jvm = { group = "androidx.annotation", name = "annotation-jvm", version.ref = "annotationJvm" }
+navigator = { module = "cafe.adriel.voyager:voyager-navigator", version.ref = "voyager" }
+navigator-screen-model = { module = "cafe.adriel.voyager:voyager-screenmodel", version.ref = "voyager" }
+navigator-transitions = { module = "cafe.adriel.voyager:voyager-transitions", version.ref = "voyager" }
+navigator-koin = { module = "cafe.adriel.voyager:voyager-koin", version.ref = "voyager" }
 
 
 [plugins]

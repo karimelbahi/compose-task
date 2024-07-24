@@ -1,4 +1,4 @@
-package home
+package presentation.home
 
 import LoadingDialog
 import VerticalGrid
@@ -18,19 +18,25 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.unit.dp
+import cafe.adriel.voyager.core.screen.Screen
+import cafe.adriel.voyager.navigator.LocalNavigator
+import cafe.adriel.voyager.navigator.currentOrThrow
 import cmp.composeapp.generated.resources.Res
 import cmp.composeapp.generated.resources.beef_meals
 import cmp.composeapp.generated.resources.categories
-import cmp.composeapp.generated.resources.irish
 import common.MainMargin
 import ignoreHorizontalParentPadding
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
+import presentation.category.CategoriesScreen
+import presentation.category.CategoryMealsViewModel
 
-@Composable
-fun HomeScreen() {
+class HomeScreen() : Screen {
 
-    val viewModel = HomeViewModel()
+    @Composable
+    override fun Content() {
+    val navigator = LocalNavigator.currentOrThrow
+        val viewModel = HomeViewModel()
     val state = viewModel.state
     val stateValue = state.collectAsState().value
     val scrollState = rememberScrollState()
@@ -55,12 +61,7 @@ fun HomeScreen() {
                 item { Spacer(modifier = Modifier.width(8.dp)) }
                 items(stateValue.categories) {
                     CategoryComponent(it) {
-//                        navController.navigate(
-//                            AppScreens.CategoriesScreen(
-//                                categoryName = it.categoryName,
-//                                categoryUrl = it.categoryUrl
-//                            )
-//                        )
+                        navigator.push(CategoriesScreen(it.categoryName, it.categoryUrl , CategoryMealsViewModel(it.categoryName).state))
                     }
                 }
                 item { Spacer(modifier = Modifier.width(8.dp)) }
@@ -72,6 +73,7 @@ fun HomeScreen() {
             }
             VerticalGrid(composableList = composableList, itemsPerRow = 2)
         }
+}
 }
 
 
