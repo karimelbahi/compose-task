@@ -10,9 +10,6 @@ plugins {
     alias(libs.plugins.compose.compiler)
     // TODO: need to covert to aliased plugin
     kotlin("plugin.serialization") version libs.versions.kotlin //decompose step2
-
-    id("app.cash.sqldelight") version libs.versions.sqlite.driver //sqldelight step1
-
 }
 
 kotlin {
@@ -38,8 +35,19 @@ kotlin {
     
     sourceSets {
         val desktopMain by getting
-        
 
+        androidMain.dependencies {
+            implementation(libs.ktor.client.android)
+
+            //koin step2
+            implementation(libs.koin.android)
+
+            implementation(libs.androidx.activity.compose)
+
+            implementation(libs.coil)
+            implementation(libs.androidx.ui.tooling.preview)
+
+        }
         commonMain.dependencies {
             implementation(compose.runtime)
             implementation(compose.foundation)
@@ -85,25 +93,15 @@ kotlin {
             implementation(libs.navigator.koin)
             implementation(libs.koin.core)
 
+            api(libs.preCompose)
+            api(libs.preCompose.viewmodel)
+
         }
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)
             implementation(libs.sqlite.driver)
 
         }
-        androidMain.dependencies {
-            implementation(libs.ktor.client.android)
-
-            //koin step2
-            implementation(libs.koin.android)
-
-            implementation(libs.androidx.activity.compose)
-
-            implementation(libs.coil)
-            implementation(libs.androidx.ui.tooling.preview)
-
-        }
-
         iosMain.dependencies {
             implementation(libs.ktor.client.darwin)
 

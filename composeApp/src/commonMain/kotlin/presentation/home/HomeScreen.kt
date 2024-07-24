@@ -14,7 +14,6 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.unit.dp
@@ -26,6 +25,7 @@ import cmp.composeapp.generated.resources.beef_meals
 import cmp.composeapp.generated.resources.categories
 import common.MainMargin
 import ignoreHorizontalParentPadding
+import moe.tlaster.precompose.flow.collectAsStateWithLifecycle
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import presentation.category.CategoriesScreen
@@ -38,7 +38,7 @@ class HomeScreen() : Screen {
     val navigator = LocalNavigator.currentOrThrow
         val viewModel = HomeViewModel()
     val state = viewModel.state
-    val stateValue = state.collectAsState().value
+    val stateValue = state.collectAsStateWithLifecycle().value
     val scrollState = rememberScrollState()
 
     LoadingDialog(stateValue.loading)

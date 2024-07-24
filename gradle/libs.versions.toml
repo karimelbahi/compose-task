@@ -32,6 +32,7 @@ coil = "2.4.0"
 lifecycleRuntimeKtx = "2.6.1"
 annotationJvm = "1.8.0"
 voyager = "1.0.0"
+preCompose = "1.5.10"
 
 [libraries]
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
@@ -83,7 +84,8 @@ navigator = { module = "cafe.adriel.voyager:voyager-navigator", version.ref = "v
 navigator-screen-model = { module = "cafe.adriel.voyager:voyager-screenmodel", version.ref = "voyager" }
 navigator-transitions = { module = "cafe.adriel.voyager:voyager-transitions", version.ref = "voyager" }
 navigator-koin = { module = "cafe.adriel.voyager:voyager-koin", version.ref = "voyager" }
-
+preCompose = { module = "moe.tlaster:precompose", version.ref = "preCompose" }
+preCompose-viewmodel = { module = "moe.tlaster:precompose-viewmodel", version.ref = "preCompose" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

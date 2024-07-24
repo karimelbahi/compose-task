@@ -15,7 +15,6 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -36,6 +35,7 @@ import cmp.composeapp.generated.resources.meal
 import common.MainMargin
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import moe.tlaster.precompose.flow.collectAsStateWithLifecycle
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import presentation.category.components.CategoryMealComponent
@@ -50,8 +50,7 @@ data class CategoriesScreen(
     override fun Content() {
 
         val navigator = LocalNavigator.currentOrThrow
-        // TODO:(karim)
-        val stateValue = state.collectAsState().value
+        val stateValue = state.collectAsStateWithLifecycle().value
         val scrollState = rememberScrollState()
 
         LoadingDialog(stateValue.loading)
