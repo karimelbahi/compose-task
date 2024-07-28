@@ -1,33 +1,40 @@
 package presentation.category
 
-import dev.icerock.moko.mvvm.viewmodel.ViewModel
+import cafe.adriel.voyager.core.model.ScreenModel
+import cafe.adriel.voyager.core.model.screenModelScope
+import common.utils.DataState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
-class CategoryMealsViewModel (categoryName: String) : ViewModel() {
-
-    private val categoryMealsRepository = CategoryMealsRepository()
+class CategoryMealsViewModel(private val categoryMealsUseCase: CategoryMealsUseCase) : ScreenModel {
 
     private val _state = MutableStateFlow(CategoriesState())
     val state = _state.asStateFlow()
 
+    fun getCategoryMeals(categoryName: String) {
+        screenModelScope.launch(Dispatchers.IO) {
+            categoryMealsUseCase.getCategoryMeals(categoryName).collect { result ->
+                when (result) {
+                    DataState.Loading -> {
+                        _state.update { it.copy(loading = true) }
+                    }
 
-    init {
-        getCategoryMeals(categoryName)
-    }
-    private fun getCategoryMeals(categoryName: String) {
-        viewModelScope.launch(Dispatchers.IO) {
-            _state.update { it.copy(loading = true) }
-            categoryMealsRepository.getCategoryMeals(categoryName).onEach { result ->
-                _state.update { it.copy(loading = false, isSuccess = true , meals = result.meals) }
+                    is DataState.Success -> {
+                        withContext(Dispatchers.Main) {
+                            _state.update { it.copy(loading = false, isSuccess = true, meals = result.data.meals) }
+                        }
+                    }
 
-            }.launchIn(viewModelScope)
+                    is DataState.Error -> {
+                        _state.update { it.copy(loading = false, errorMessage = result.error) }
+                    }
+                }
+            }
         }
     }
 }

@@ -15,7 +15,9 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -34,23 +36,22 @@ import cmp.composeapp.generated.resources.category
 import cmp.composeapp.generated.resources.ic_baseline_arrow_back_24
 import cmp.composeapp.generated.resources.meal
 import common.MainMargin
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
+import org.koin.compose.koinInject
 import presentation.category.components.CategoryMealComponent
 
 data class CategoriesScreen(
     val categoryName: String,
     val categoryUrl: String,
-    val state: StateFlow<CategoriesState>,
 ) : Screen {
 
     @Composable
     override fun Content() {
-
         val navigator = LocalNavigator.currentOrThrow
-        val stateValue = state.collectAsState().value
+        val viewModel: CategoryMealsViewModel = koinInject()
+        LaunchedEffect(Unit) { viewModel.getCategoryMeals(categoryName)}
+        val stateValue by viewModel.state.collectAsState()
         val scrollState = rememberScrollState()
 
         LoadingDialog(stateValue.loading)
@@ -109,14 +110,12 @@ data class CategoriesScreen(
         }
     }
 }
-
 // TODO:(karim) need to fix the preview to be from android not jetbrains
 @Preview
 @Composable
 private fun CategoriesScreenPreview() {
-    CategoriesScreen(
-        categoryName = "",
-        categoryUrl = "https://duckduckgo.com/?q=ac",
-        state = MutableStateFlow(CategoriesState())
-   )
+//    CategoriesScreen(
+//        categoryName = "",
+//        categoryUrl = "https://duckduckgo.com/?q=ac"
+//   )
 }

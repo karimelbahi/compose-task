@@ -76,6 +76,7 @@ kotlin {
 
             //koin step1
             implementation(libs.koin.core)
+            implementation(libs.koin.compose)
 
             implementation(libs.material3.windowsizeclass.multiplatform)
 
@@ -84,7 +85,6 @@ kotlin {
             // coil
             implementation(libs.coil)
 
-            implementation(libs.androidx.lifecycle.runtime.ktx)
 
             // voyager
             implementation(libs.navigator)

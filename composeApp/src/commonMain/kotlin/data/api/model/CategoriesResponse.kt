@@ -5,7 +5,6 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class CategoriesResponse(
-
     @SerialName( "categories")
     var categories: List<Category>
 )
