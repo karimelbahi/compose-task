@@ -6,7 +6,9 @@ import common.utils.DataState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
@@ -15,7 +17,11 @@ const val categoryName = "Beef"
 class HomeViewModel(private val homeUseCase: HomeUseCase) : ScreenModel {
 
     private val _state = MutableStateFlow(HomeState())
-    val state = _state as StateFlow<HomeState>
+    val state = _state.asStateFlow().stateIn(
+        scope = screenModelScope,
+        started = SharingStarted.WhileSubscribed(),
+        initialValue = HomeState()
+    )
 
     fun getHomePage() {
         getCategories()
