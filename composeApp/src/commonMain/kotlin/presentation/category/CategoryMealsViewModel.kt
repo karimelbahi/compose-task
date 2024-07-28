@@ -18,7 +18,7 @@ class CategoryMealsViewModel(private val categoryMealsUseCase: CategoryMealsUseC
     private val _state = MutableStateFlow(CategoriesState())
     val state = _state.asStateFlow().stateIn(
         scope = screenModelScope,
-        started = SharingStarted.WhileSubscribed(),
+        started = SharingStarted.WhileSubscribed(5000L),
         initialValue = CategoriesState())
 
     fun getCategoryMeals(categoryName: String) {

@@ -19,7 +19,7 @@ class HomeViewModel(private val homeUseCase: HomeUseCase) : ScreenModel {
     private val _state = MutableStateFlow(HomeState())
     val state = _state.asStateFlow().stateIn(
         scope = screenModelScope,
-        started = SharingStarted.WhileSubscribed(),
+        started = SharingStarted.WhileSubscribed(5000L),
         initialValue = HomeState()
     )
 
