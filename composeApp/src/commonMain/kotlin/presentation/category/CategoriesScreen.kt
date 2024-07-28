@@ -45,53 +45,55 @@ data class CategoriesScreen(
     val categoryName: String,
     val categoryUrl: String,
 ) : Screen {
-
     @Composable
     override fun Content() {
         val navigator = LocalNavigator.currentOrThrow
         val viewModel: CategoryMealsViewModel = koinInject()
-        LaunchedEffect(Unit) { viewModel.getCategoryMeals(categoryName)}
+        LaunchedEffect(Unit) { viewModel.getCategoryMeals(categoryName) }
         val stateValue by viewModel.state.collectAsState()
         val scrollState = rememberScrollState()
 
         LoadingDialog(stateValue.loading)
 
-        if ( stateValue.isSuccess || LocalInspectionMode.current) {
-
+        if (stateValue.isSuccess || LocalInspectionMode.current) {
             Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .verticalScroll(scrollState)
-                    .padding(MainMargin),
-                verticalArrangement = Arrangement.spacedBy(12.dp)
+                modifier =
+                    Modifier
+                        .fillMaxSize()
+                        .verticalScroll(scrollState)
+                        .padding(MainMargin),
+                verticalArrangement = Arrangement.spacedBy(12.dp),
             ) {
-            MyToolbarArrowWithTitle(
-                stringResource(Res.string.beef_meals_tile),
-                drawableResource = Res.drawable.ic_baseline_arrow_back_24,
-                titleContentAlignment = Alignment.TopStart,
-                titleStyle = TextStyle(
-                    fontWeight = FontWeight(400),
-                    fontSize = 17.sp
-                ),
-                onclickBack = {
-                    navigator.pop()
-                })
+                MyToolbarArrowWithTitle(
+                    stringResource(Res.string.beef_meals_tile),
+                    drawableResource = Res.drawable.ic_baseline_arrow_back_24,
+                    titleContentAlignment = Alignment.TopStart,
+                    titleStyle =
+                        TextStyle(
+                            fontWeight = FontWeight(400),
+                            fontSize = 17.sp,
+                        ),
+                    onclickBack = {
+                        navigator.pop()
+                    },
+                )
 
                 Row(
-                    modifier = Modifier
-                        .padding(top = 40.dp)
-                        .background(Color(0xfff8f8f8)),
-                    verticalAlignment = Alignment.CenterVertically
+                    modifier =
+                        Modifier
+                            .padding(top = 40.dp)
+                            .background(Color(0xfff8f8f8)),
+                    verticalAlignment = Alignment.CenterVertically,
                 ) {
                     Column {
                         Text(
                             text = stringResource(Res.string.category),
-                            style = TextStyle(fontWeight = FontWeight.Light, fontSize = 16.sp)
+                            style = TextStyle(fontWeight = FontWeight.Light, fontSize = 16.sp),
                         )
                         Text(
                             modifier = Modifier.padding(top = 8.dp),
                             text = categoryName + " " + stringResource(Res.string.meal),
-                            style = TextStyle(fontWeight = FontWeight.Bold, fontSize = 24.sp)
+                            style = TextStyle(fontWeight = FontWeight.Bold, fontSize = 24.sp),
                         )
                     }
                     Spacer(modifier = Modifier.weight(1f))
@@ -99,7 +101,7 @@ data class CategoriesScreen(
                     MyImageWithCoil(
                         modifier = Modifier.size(104.dp),
                         imageUrl = categoryUrl,
-                        contentScale = ContentScale.FillBounds
+                        contentScale = ContentScale.FillBounds,
                     )
                 }
 
@@ -110,6 +112,7 @@ data class CategoriesScreen(
         }
     }
 }
+
 // TODO:(karim) need to fix the preview to be from android not jetbrains
 @Preview
 @Composable

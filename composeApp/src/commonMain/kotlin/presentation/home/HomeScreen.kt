@@ -34,7 +34,6 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 import presentation.category.CategoriesScreen
 
 class HomeScreen : Screen {
-
     @Composable
     override fun Content() {
         val navigator = LocalNavigator.currentOrThrow
@@ -45,25 +44,26 @@ class HomeScreen : Screen {
 
         LoadingDialog(stateValue.loading)
 
-        if (stateValue.isSuccess || LocalInspectionMode.current)
+        if (stateValue.isSuccess || LocalInspectionMode.current) {
             Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .verticalScroll(scrollState)
-                    .padding(MainMargin),
-                verticalArrangement = Arrangement.spacedBy(12.dp)
+                modifier =
+                    Modifier
+                        .fillMaxSize()
+                        .verticalScroll(scrollState)
+                        .padding(MainMargin),
+                verticalArrangement = Arrangement.spacedBy(12.dp),
             ) {
                 HeaderSectionComponent(stringResource(Res.string.categories))
                 LazyRow(
                     horizontalArrangement = Arrangement.spacedBy(8.dp),
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .ignoreHorizontalParentPadding(MainMargin),
+                    modifier =
+                        Modifier
+                            .fillMaxWidth()
+                            .ignoreHorizontalParentPadding(MainMargin),
                 ) {
                     item { Spacer(modifier = Modifier.width(8.dp)) }
                     items(stateValue.categories) {
                         CategoryComponent(it) {
-
                             navigator.push(CategoriesScreen(it.categoryName, it.categoryUrl))
                         }
                     }
@@ -71,14 +71,15 @@ class HomeScreen : Screen {
                 }
 
                 HeaderSectionComponent(stringResource(Res.string.beef_meals))
-                val composableList: List<@Composable () -> Unit> = stateValue.meals.map { meal ->
-                    { MealComponent(meal) }
-                }
+                val composableList: List<@Composable () -> Unit> =
+                    stateValue.meals.map { meal ->
+                        { MealComponent(meal) }
+                    }
                 VerticalGrid(composableList = composableList, itemsPerRow = 2)
             }
+        }
     }
 }
-
 
 @Preview()
 @Composable

@@ -26,58 +26,58 @@ import data.api.model.Meal
 import noRippleClickable
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
-
 @Composable
-fun CategoryMealComponent(meal: Meal, onClick: () -> Unit = {}) {
-
+fun CategoryMealComponent(
+    meal: Meal,
+    onClick: () -> Unit = {},
+) {
     Row(
         Modifier
             .fillMaxWidth()
             .background(Color(0xfff8f8f8), shape = RoundedCornerShape(16.dp))
             .border(
                 border = BorderStroke(2.dp, Color(0xffdfdfdf)),
-                shape = RoundedCornerShape(16.dp)
-            )
-            .noRippleClickable { onClick.invoke() },
+                shape = RoundedCornerShape(16.dp),
+            ).noRippleClickable { onClick.invoke() },
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(8.dp)
+        horizontalArrangement = Arrangement.spacedBy(8.dp),
     ) {
         MyImageWithCoil(
-            modifier = Modifier
-                .size(104.dp)
-                .padding(8.dp)
-                .clip(shape = RoundedCornerShape(14.dp)),
-            imageUrl = meal.mealUrl
+            modifier =
+                Modifier
+                    .size(104.dp)
+                    .padding(8.dp)
+                    .clip(shape = RoundedCornerShape(14.dp)),
+            imageUrl = meal.mealUrl,
         )
         Column(
             horizontalAlignment = Alignment.Start,
-            verticalArrangement = Arrangement.spacedBy(4.dp)
+            verticalArrangement = Arrangement.spacedBy(4.dp),
         ) {
-
             Text(
                 text = meal.mealName,
-                style = TextStyle(
-                    fontSize = 16.sp,
-                    fontWeight = FontWeight.Bold,
-                    color = Color(0xFF000000),
-                ),
+                style =
+                    TextStyle(
+                        fontSize = 16.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = Color(0xFF000000),
+                    ),
                 overflow = TextOverflow.Ellipsis,
-                maxLines = 1
+                maxLines = 1,
             )
 
             Text(
                 text = meal.mealName,
-                style = TextStyle(
-                    fontSize = 14.sp,
-                    fontWeight = FontWeight.Light,
-                    color = Color(0xFF000000),
-                ),
+                style =
+                    TextStyle(
+                        fontSize = 14.sp,
+                        fontWeight = FontWeight.Light,
+                        color = Color(0xFF000000),
+                    ),
                 overflow = TextOverflow.Ellipsis,
-                maxLines = 1
+                maxLines = 1,
             )
-
         }
-
     }
 }
 
@@ -88,7 +88,7 @@ private fun CategoryMealComponentPreview() {
         Meal(
             "1",
             mealName = "Corned Beef Cabbage",
-            mealUrl = "https://picsum.photos/200"
-        )
+            mealUrl = "https://picsum.photos/200",
+        ),
     )
 }

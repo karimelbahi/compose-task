@@ -14,14 +14,16 @@ import kotlinx.coroutines.launch
 
 const val categoryName = "Beef"
 
-class HomeViewModel(private val homeUseCase: HomeUseCase) : ScreenModel {
-
+class HomeViewModel(
+    private val homeUseCase: HomeUseCase,
+) : ScreenModel {
     private val _state = MutableStateFlow(HomeState())
-    val state = _state.asStateFlow().stateIn(
-        scope = screenModelScope,
-        started = SharingStarted.WhileSubscribed(5000L),
-        initialValue = HomeState()
-    )
+    val state =
+        _state.asStateFlow().stateIn(
+            scope = screenModelScope,
+            started = SharingStarted.WhileSubscribed(5000L),
+            initialValue = HomeState(),
+        )
 
     fun getHomePage() {
         getCategories()
@@ -50,7 +52,8 @@ class HomeViewModel(private val homeUseCase: HomeUseCase) : ScreenModel {
 
     private fun getMeals() {
         screenModelScope.launch(Dispatchers.IO) {
-            homeUseCase.getMeals(categoryName)
+            homeUseCase
+                .getMeals(categoryName)
                 .collect { result ->
                     when (result) {
                         is DataState.Loading -> {
@@ -62,10 +65,9 @@ class HomeViewModel(private val homeUseCase: HomeUseCase) : ScreenModel {
                                 it.copy(
                                     loading = false,
                                     isSuccess = true,
-                                    meals = result.data.meals
+                                    meals = result.data.meals,
                                 )
                             }
-
                         }
 
                         is DataState.Error -> {
