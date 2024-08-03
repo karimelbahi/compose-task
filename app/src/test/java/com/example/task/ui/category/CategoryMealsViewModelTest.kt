@@ -5,9 +5,9 @@ import com.example.task.presentation.ui.category.CategoriesState
 import com.example.task.presentation.ui.category.CategoryMealsUseCase
 import com.example.task.presentation.ui.category.CategoryMealsViewModel
 import com.example.task.presentation.utils.Resource
+import com.example.task.utils.ERROR_MESSAGE
+import com.example.task.utils.FAKE_CATEGORY_NAME
 import com.example.task.utils.MainCoroutineRule
-import com.example.task.utils.errorMessage
-import com.example.task.utils.fakeCategoryName
 import com.example.task.utils.fakeMeals
 import com.nhaarman.mockitokotlin2.whenever
 import junit.framework.TestCase.assertEquals
@@ -35,7 +35,6 @@ import org.mockito.Mockito.mock
  * This class tests the behavior of the view model in various scenarios.
  */
 class CategoryMealsViewModelTest {
-
     /**
      * JUnit rule to enforce synchronous execution of tasks on the main thread for testing purposes.
      */
@@ -58,7 +57,6 @@ class CategoryMealsViewModelTest {
      */
     private val categoryMealsUseCase: CategoryMealsUseCase = mock(CategoryMealsUseCase::class.java)
 
-
     /**
      * Sets up the test environment before each test.
      * - Sets the main dispatcher to the test dispatcher provided by mainCoroutineRule.
@@ -80,7 +78,6 @@ class CategoryMealsViewModelTest {
         Dispatchers.resetMain()
     }
 
-
     /**
      * Test to verify that the view model emits a loading state when getCategoryMeals is called.
      * - Mocks the use case to return a flow of Resource.loading.
@@ -89,39 +86,41 @@ class CategoryMealsViewModelTest {
      * - Uses advanceUntilIdle to ensure all coroutines have finished.
      * - Asserts that the first state has loading set to true, isSuccess is false, and meals is empty.
      */
-    //When_StateUnderTest_Expect_ExpectedBehavior
+    // When_StateUnderTest_Expect_ExpectedBehavior
     @OptIn(ExperimentalCoroutinesApi::class)
     @Test
-    fun `when server loading expect display loader`(): Unit = runTest {
-        whenever(categoryMealsUseCase.getCategoryMeals(fakeCategoryName)).thenReturn(
-            flowOf(
-                Resource.loading(
-                    data = true
-                )
+    fun `when server loading expect display loader`(): Unit =
+        runTest {
+            whenever(categoryMealsUseCase.getCategoryMeals(FAKE_CATEGORY_NAME)).thenReturn(
+                flowOf(
+                    Resource.loading(
+                        data = true,
+                    ),
+                ),
             )
-        )
 
-        categoryMealsViewModel.getCategoryMeals(fakeCategoryName)
+            categoryMealsViewModel.getCategoryMeals(FAKE_CATEGORY_NAME)
 
-        val stateList = mutableListOf<CategoriesState>()
-        val job = launch {
-            categoryMealsViewModel.state.onEach {
-                categoryMealsViewModel.state.toList(stateList)
-            }.collect()
+            val stateList = mutableListOf<CategoriesState>()
+            val job =
+                launch {
+                    categoryMealsViewModel.state
+                        .onEach {
+                            categoryMealsViewModel.state.toList(stateList)
+                        }.collect()
+                }
+
+            advanceUntilIdle()
+
+            val latestState = stateList[0]
+
+            assertEquals(true, latestState.loading)
+            assertEquals(false, latestState.isSuccess)
+            assertEquals(null, latestState.errorMessage)
+            assertTrue(latestState.meals.isEmpty())
+
+            job.cancel()
         }
-
-        advanceUntilIdle()
-
-        val latestState = stateList[0]
-
-        assertEquals(true, latestState.loading)
-        assertEquals(false, latestState.isSuccess)
-        assertEquals(null, latestState.errorMessage)
-        assertTrue(latestState.meals.isEmpty())
-
-        job.cancel()
-    }
-
 
     /**
      * Test to verify that the view model emits a success state when getCategoryMeals is called.
@@ -132,33 +131,35 @@ class CategoryMealsViewModelTest {
      */
     @OptIn(ExperimentalCoroutinesApi::class)
     @Test
-    fun `when server return valid data expect return category list`(): Unit = runTest {
-
-        whenever(categoryMealsUseCase.getCategoryMeals(fakeCategoryName)).thenReturn(
-            flowOf(
-                Resource.success(
-                    fakeMeals
-                )
+    fun `when server return valid data expect return category list`(): Unit =
+        runTest {
+            whenever(categoryMealsUseCase.getCategoryMeals(FAKE_CATEGORY_NAME)).thenReturn(
+                flowOf(
+                    Resource.success(
+                        fakeMeals,
+                    ),
+                ),
             )
-        )
 
-        categoryMealsViewModel.getCategoryMeals(fakeCategoryName)
+            categoryMealsViewModel.getCategoryMeals(FAKE_CATEGORY_NAME)
 
-        val stateList = mutableListOf<CategoriesState>()
-        val job = launch {
-            categoryMealsViewModel.state.onEach {
-                categoryMealsViewModel.state.toList(stateList)
-            }.collect()
+            val stateList = mutableListOf<CategoriesState>()
+            val job =
+                launch {
+                    categoryMealsViewModel.state
+                        .onEach {
+                            categoryMealsViewModel.state.toList(stateList)
+                        }.collect()
+                }
+
+            advanceUntilIdle()
+
+            val latestState = stateList[0]
+            assertEquals(false, latestState.loading)
+            assertEquals(true, latestState.isSuccess)
+            assertEquals(fakeMeals, latestState.meals)
+            job.cancel()
         }
-
-        advanceUntilIdle()
-
-        val latestState = stateList[0]
-        assertEquals(false, latestState.loading)
-        assertEquals(true, latestState.isSuccess)
-        assertEquals(fakeMeals, latestState.meals)
-        job.cancel()
-    }
 
     /**
      * Test to verify that the view model emits a error state when getCategoryMeals is called.
@@ -171,25 +172,25 @@ class CategoryMealsViewModelTest {
      */
     @OptIn(ExperimentalCoroutinesApi::class)
     @Test
-    fun `when server return failure expect get error state`(): Unit = runTest {
-
-        whenever(categoryMealsUseCase.getCategoryMeals(fakeCategoryName)).thenReturn(
-            flowOf(
-                Resource.error(
-                    msg = errorMessage,
-                    data = null
-                )
+    fun `when server return failure expect get error state`(): Unit =
+        runTest {
+            whenever(categoryMealsUseCase.getCategoryMeals(FAKE_CATEGORY_NAME)).thenReturn(
+                flowOf(
+                    Resource.error(
+                        msg = ERROR_MESSAGE,
+                        data = null,
+                    ),
+                ),
             )
-        )
 
-        categoryMealsViewModel.getCategoryMeals(fakeCategoryName)
+            categoryMealsViewModel.getCategoryMeals(FAKE_CATEGORY_NAME)
 
-        val latestState = categoryMealsViewModel.state.first()
+            val latestState = categoryMealsViewModel.state.first()
 
-        advanceUntilIdle()
+            advanceUntilIdle()
 
-        assertEquals(false, latestState.loading)
-        assertEquals(false, latestState.isSuccess)
-        assertTrue(latestState.meals.isEmpty())
-    }
+            assertEquals(false, latestState.loading)
+            assertEquals(false, latestState.isSuccess)
+            assertTrue(latestState.meals.isEmpty())
+        }
 }

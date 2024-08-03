@@ -6,16 +6,12 @@ import com.example.task.presentation.ui.home.HomeUseCase
 import com.example.task.presentation.ui.home.HomeViewModel
 import com.example.task.presentation.utils.Resource
 import com.example.task.utils.MainCoroutineRule
-import com.example.task.utils.fakeCategoryList
-import com.example.task.utils.fakeCategoryName
-import com.example.task.utils.fakeMeals
 import com.nhaarman.mockitokotlin2.whenever
 import junit.framework.TestCase
 import junit.framework.TestCase.assertTrue
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.toList
@@ -35,7 +31,6 @@ import org.mockito.Mockito.mock
  * This class tests the behavior of the view model in various scenarios.
  */
 class HomeViewModelTest {
-
     /**
      * JUnit rule to enforce synchronous execution of tasks on the main thread for testing purposes.
      */
@@ -78,43 +73,45 @@ class HomeViewModelTest {
         Dispatchers.resetMain()
     }
 
-
     @OptIn(ExperimentalCoroutinesApi::class)
     @Test
-    fun getCategories_load_emitLoadState(): Unit = runTest {
-        whenever(homeUseCase.getCategories()).thenReturn(
-            flowOf(
-                Resource.loading(
-                    data = true
-                )
+    fun getCategories_load_emitLoadState(): Unit =
+        runTest {
+            whenever(homeUseCase.getCategories()).thenReturn(
+                flowOf(
+                    Resource.loading(
+                        data = true,
+                    ),
+                ),
             )
-        )
 
-        homeViewModel.getHomePage()
+            homeViewModel.getHomePage()
 
-        val stateList = mutableListOf<HomeState>()
-        val job = launch {
-            homeViewModel.state.onEach {
-                homeViewModel.state.toList(stateList)
-            }.collect()
+            val stateList = mutableListOf<HomeState>()
+            val job =
+                launch {
+                    homeViewModel.state
+                        .onEach {
+                            homeViewModel.state.toList(stateList)
+                        }.collect()
+                }
+
+            advanceUntilIdle()
+
+            val latestState = stateList[0]
+
+            TestCase.assertEquals(true, latestState.loading)
+            TestCase.assertEquals(false, latestState.isSuccess)
+            TestCase.assertEquals(null, latestState.errorMessage)
+            assertTrue(latestState.meals.isEmpty())
+
+            job.cancel()
         }
-
-        advanceUntilIdle()
-
-        val latestState = stateList[0]
-
-        TestCase.assertEquals(true, latestState.loading)
-        TestCase.assertEquals(false, latestState.isSuccess)
-        TestCase.assertEquals(null, latestState.errorMessage)
-        assertTrue(latestState.meals.isEmpty())
-
-        job.cancel()
-    }
 
     // MethodName_StateUnderTest_ExpectedBehavior
     @Test
-    fun getCategories_success_emitSuccessStateWithCategoryAndMealList(): Unit = runTest {
-
+    fun getCategories_success_emitSuccessStateWithCategoryAndMealList(): Unit =
+        runTest {
 /*        whenever(homeUseCase.getCategories().first()).thenReturn(Resource.success(fakeCategoryList))
         whenever(homeUseCase.getMeals(fakeCategoryName).first()).thenReturn(
             Resource.success(
@@ -141,10 +138,11 @@ class HomeViewModelTest {
         assertTrue(latestState.meals.isEmpty())
 
         job.cancel()*/
-    }
+        }
 
     @Test
-    fun getCategories_failure_returnsError(): Unit = runTest {
+    fun getCategories_failure_returnsError(): Unit =
+        runTest {
         /*      whenever(homeUseCase.getCategories()).thenReturn(
                   flowOf(
                       Resource.error(
@@ -163,5 +161,5 @@ class HomeViewModelTest {
               TestCase.assertEquals(false, latestState.loading)
               TestCase.assertEquals(false, latestState.isSuccess)
               assertTrue(latestState.meals.isEmpty())*/
-    }
+        }
 }
