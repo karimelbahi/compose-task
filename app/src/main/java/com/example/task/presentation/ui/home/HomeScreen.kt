@@ -14,6 +14,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalInspectionMode
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -25,6 +26,9 @@ import com.example.task.common.component.LoadingDialog
 import com.example.task.common.component.VerticalGrid
 import com.example.task.common.utils.ignoreHorizontalParentPadding
 import com.example.task.presentation.navigation.AppScreens
+import com.example.task.presentation.ui.home.HomeScreenTestTags.LAZY_ROW
+import com.example.task.presentation.ui.home.HomeScreenTestTags.LAZY_ROW_SPACE
+import com.example.task.presentation.ui.home.HomeScreenTestTags.MAIN_COLUMN
 import com.example.task.presentation.ui.home.components.CategoryComponent
 import com.example.task.presentation.ui.home.components.HeaderSectionComponent
 import com.example.task.presentation.ui.home.components.MealComponent
@@ -32,37 +36,50 @@ import com.example.task.ui.theme.MainMargin
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
-@Composable
-fun HomeScreen(navController: NavController, state: StateFlow<HomeState>) {
+object HomeScreenTestTags {
+    const val MAIN_COLUMN = "MAIN_COLUMN"
+    const val LAZY_ROW = "LAZY_ROW"
+    const val LAZY_ROW_SPACE = "LAZY_ROW_SPACE"
+    const val LAZY_GRID = "LAZY_GRID"
+}
 
+@Composable
+fun HomeScreen(
+    navController: NavController,
+    state: StateFlow<HomeState>,
+) {
     val stateValue = state.collectAsStateWithLifecycle().value
     val scrollState = rememberScrollState()
 
     LoadingDialog(stateValue.loading)
 
-    if (stateValue.isSuccess || LocalInspectionMode.current)
+    if (stateValue.isSuccess || LocalInspectionMode.current) {
         Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .verticalScroll(scrollState)
-                .padding(MainMargin),
-            verticalArrangement = Arrangement.spacedBy(12.dp)
+            modifier =
+                Modifier
+                    .fillMaxSize()
+                    .verticalScroll(scrollState)
+                    .padding(MainMargin)
+                    .testTag(MAIN_COLUMN),
+            verticalArrangement = Arrangement.spacedBy(12.dp),
         ) {
             HeaderSectionComponent(stringResource(R.string.categories_tile))
             LazyRow(
                 horizontalArrangement = Arrangement.spacedBy(8.dp),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .ignoreHorizontalParentPadding(MainMargin),
+                modifier =
+                    Modifier
+                        .fillMaxWidth()
+                        .ignoreHorizontalParentPadding(MainMargin)
+                        .testTag(LAZY_ROW),
             ) {
-                item { Spacer(modifier = Modifier.width(8.dp)) }
+                item { Spacer(modifier = Modifier.width(8.dp).testTag(LAZY_ROW_SPACE.plus(0))) }
                 items(stateValue.categories) {
                     CategoryComponent(it) {
                         navController.navigate(
                             AppScreens.CategoriesScreen(
                                 categoryName = it.categoryName,
-                                categoryUrl = it.categoryUrl
-                            )
+                                categoryUrl = it.categoryUrl,
+                            ),
                         )
                     }
                 }
@@ -70,19 +87,20 @@ fun HomeScreen(navController: NavController, state: StateFlow<HomeState>) {
             }
 
             HeaderSectionComponent(stringResource(R.string.beef_meals_tile))
-            val composableList: List<@Composable () -> Unit> = stateValue.meals.map { meal ->
-                { MealComponent(meal) }
-            }
+            val composableList: List<@Composable () -> Unit> =
+                stateValue.meals.map { meal ->
+                    { MealComponent(meal) }
+                }
             VerticalGrid(composableList = composableList, itemsPerRow = 2)
         }
+    }
 }
-
 
 @Preview(name = "Full Preview", showSystemUi = true, showBackground = true)
 @Composable
 private fun HomeScreenPreview() {
     HomeScreen(
         navController = rememberNavController(),
-        state = MutableStateFlow(HomeState())
+        state = MutableStateFlow(HomeState()),
     )
 }

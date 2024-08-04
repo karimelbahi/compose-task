@@ -21,6 +21,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -37,38 +38,44 @@ import com.example.task.common.utils.noRippleClickable
 import com.example.task.data.api.model.Category
 import com.example.task.data.api.model.Meal
 
+const val CATEGORY_COMPONENT_LAZY_COLUMN = "CATEGORY_COMPONENT_LAZY_COLUMN"
 
 @Composable
-fun CategoryComponent(category: Category, modifier: Modifier = Modifier, onClick: (Category) -> Unit = {}) {
+fun CategoryComponent(
+    category: Category,
+    modifier: Modifier = Modifier,
+    onClick: (Category) -> Unit = {},
+) {
     Column(
         modifier
             .wrapContentSize()
             .background(
-                Color(0xfff8f8f8), shape = RoundedCornerShape(16.dp)
-            )
-            .border(
+                Color(0xfff8f8f8),
+                shape = RoundedCornerShape(16.dp),
+            ).border(
                 border = BorderStroke(2.dp, Color(0xffdfdfdf)),
-                shape = RoundedCornerShape(16.dp)
-            )
-            .noRippleClickable { onClick.invoke(category) }
-            .padding(8.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
+                shape = RoundedCornerShape(16.dp),
+            ).noRippleClickable { onClick.invoke(category) }
+            .padding(8.dp)
+            .testTag(CATEGORY_COMPONENT_LAZY_COLUMN.plus(category.categoryName)),
+        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         MyImageWithCoil(
-            modifier = Modifier
-                .size(width = 80.dp, height = 52.dp),
-            imageUrl = category.categoryUrl
+            modifier =
+                Modifier
+                    .size(width = 80.dp, height = 52.dp),
+            imageUrl = category.categoryUrl,
         )
         Text(
-            modifier = Modifier
-                .padding(top = 8.dp)
-                .requiredWidth(56.dp),
+            modifier =
+                Modifier
+                    .padding(top = 8.dp)
+                    .requiredWidth(56.dp),
             textAlign = TextAlign.Center,
             text = category.categoryName,
             overflow = TextOverflow.Ellipsis,
-            maxLines = 1
+            maxLines = 1,
         )
-
     }
 }
 
@@ -80,90 +87,100 @@ private fun CategoryComponentPreview() {
             "1",
             categoryName = "name",
             categoryUrl = "https://picsum.photos/200",
-            categoryDescription = "des"
-        )
+            categoryDescription = "des",
+        ),
     )
 }
 
 @Composable
-fun MealComponent(meal: Meal, modifier: Modifier = Modifier, onClick: () -> Unit = {}) {
+fun MealComponent(
+    meal: Meal,
+    modifier: Modifier = Modifier,
+    onClick: () -> Unit = {},
+) {
     Column(
-        modifier = modifier
-            .fillMaxWidth()
-            .padding(top = 8.dp)
-            .background(Color(0xfff8f8f8), shape = RoundedCornerShape(16.dp))
-            .border(
-                border = BorderStroke(2.dp, Color(0xffdfdfdf)),
-                shape = RoundedCornerShape(16.dp)
-            )
-            .noRippleClickable { onClick.invoke() }
-            .padding(bottom = 16.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.spacedBy(8.dp)
-    ) {
-
-        MyImageWithCoil(
-            modifier = Modifier
+        modifier =
+            modifier
                 .fillMaxWidth()
-                .height(height = 136.dp)
-                .padding(2.dp)
-                .clip(shape = RoundedCornerShape(topStart = 14.dp, topEnd = 14.dp)),
-            imageUrl = meal.mealUrl
+                .padding(top = 8.dp)
+                .background(Color(0xfff8f8f8), shape = RoundedCornerShape(16.dp))
+                .border(
+                    border = BorderStroke(2.dp, Color(0xffdfdfdf)),
+                    shape = RoundedCornerShape(16.dp),
+                ).noRippleClickable { onClick.invoke() }
+                .padding(bottom = 16.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.spacedBy(8.dp),
+    ) {
+        MyImageWithCoil(
+            modifier =
+                Modifier
+                    .fillMaxWidth()
+                    .height(height = 136.dp)
+                    .padding(2.dp)
+                    .clip(shape = RoundedCornerShape(topStart = 14.dp, topEnd = 14.dp)),
+            imageUrl = meal.mealUrl,
         )
 
         Text(
-            modifier = Modifier.padding(top = 16.dp), text = meal.mealName,
-            style = TextStyle(
-                fontSize = 14.sp,
-                fontWeight = FontWeight.Bold,
-                color = Color(0xFF000000),
-            ),
+            modifier = Modifier.padding(top = 16.dp),
+            text = meal.mealName,
+            style =
+                TextStyle(
+                    fontSize = 14.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = Color(0xFF000000),
+                ),
             overflow = TextOverflow.Ellipsis,
-            maxLines = 1
+            maxLines = 1,
         )
         MyTwoTextStartStartRow(
             modifier = Modifier.wrapContentSize(),
             horizontalArrangement = Arrangement.spacedBy(2.dp),
             firstTxtText = stringResource(R.string.category_label),
-            firstStyle = TextStyle(
-                fontSize = 14.sp,
-                fontWeight = FontWeight(500),
-                color = Color(0xFF70AB99)
-            ),
+            firstStyle =
+                TextStyle(
+                    fontSize = 14.sp,
+                    fontWeight = FontWeight(500),
+                    color = Color(0xFF70AB99),
+                ),
             secondTxtText = stringResource(R.string.beef),
-            secondStyle = TextStyle(
-                fontSize = 12.sp,
-                fontWeight = FontWeight(400),
-                color = Color(0xFF000000),
-            )
+            secondStyle =
+                TextStyle(
+                    fontSize = 12.sp,
+                    fontWeight = FontWeight(400),
+                    color = Color(0xFF000000),
+                ),
         )
         MyTwoTextStartStartRow(
             modifier = Modifier.wrapContentSize(),
             horizontalArrangement = Arrangement.spacedBy(2.dp),
             firstTxtText = stringResource(R.string.origin_label),
-            firstStyle = TextStyle(
-                fontSize = 14.sp,
-                fontWeight = FontWeight(500),
-                color = Color(0xFF70AB99)
-            ),
+            firstStyle =
+                TextStyle(
+                    fontSize = 14.sp,
+                    fontWeight = FontWeight(500),
+                    color = Color(0xFF70AB99),
+                ),
             secondTxtText = stringResource(R.string.irish),
-            secondStyle = TextStyle(
-                fontSize = 12.sp,
-                fontWeight = FontWeight(400),
-                color = Color(0xFF000000),
-            )
+            secondStyle =
+                TextStyle(
+                    fontSize = 12.sp,
+                    fontWeight = FontWeight(400),
+                    color = Color(0xFF000000),
+                ),
         )
 
         Row(
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(8.dp)
+            horizontalArrangement = Arrangement.spacedBy(8.dp),
         ) {
             MyWrapShapeWithContent(onClick = { }, txt = stringResource(R.string.irish))
             MyWrapShapeWithContent(onClick = { }, txt = stringResource(R.string.dessert))
         }
         Row(
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(8.dp)
+            horizontalArrangement = Arrangement.spacedBy(8.dp),
         ) {
             MyWrapShapeWithContent(onClick = { }, txt = stringResource(R.string.pudding))
             MyWrapShapeWithContent(onClick = { }, txt = stringResource(R.string.chocolate))
@@ -178,25 +195,28 @@ private fun MealComponentPreview() {
         Meal(
             "1",
             mealName = "Corned Beef Cabbage",
-            mealUrl = "https://picsum.photos/200"
-        )
+            mealUrl = "https://picsum.photos/200",
+        ),
     )
 }
 
-
 @Composable
-fun HeaderSectionComponent(title: String, modifier: Modifier = Modifier) {
-    Row(modifier= modifier, verticalAlignment = Alignment.CenterVertically) {
+fun HeaderSectionComponent(
+    title: String,
+    modifier: Modifier = Modifier,
+) {
+    Row(modifier = modifier, verticalAlignment = Alignment.CenterVertically) {
         Box(
-            modifier = Modifier
-                .width(2.dp)
-                .height(14.dp)
-                .clip(shape = RoundedCornerShape(size = 5.dp))
-                .background(Color(0xff000000))
+            modifier =
+                Modifier
+                    .width(2.dp)
+                    .height(14.dp)
+                    .clip(shape = RoundedCornerShape(size = 5.dp))
+                    .background(Color(0xff000000)),
         )
         Text(
             modifier = Modifier.padding(start = 4.dp),
-            text = title
+            text = title,
         )
     }
 }

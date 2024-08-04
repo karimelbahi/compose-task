@@ -1,34 +1,43 @@
 package com.example.task.presentation.ui.home
 
+import androidx.compose.ui.test.assertIsDisplayed
+import androidx.compose.ui.test.assertIsNotDisplayed
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import androidx.navigation.compose.rememberNavController
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.example.task.common.component.LOADING_DIALOG_TAG
+import com.example.task.presentation.ui.home.HomeScreenTestTags.LAZY_GRID
+import com.example.task.presentation.ui.home.HomeScreenTestTags.LAZY_ROW
+import com.example.task.presentation.ui.home.HomeScreenTestTags.MAIN_COLUMN
+import com.example.task.presentation.ui.home.components.CATEGORY_COMPONENT_LAZY_COLUMN
+import com.example.task.utils.DELAY_6000_SEC
 import com.example.task.utils.fakeCategoryList
 import com.example.task.utils.fakeMeals
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.test.runTest
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
 class HomeScreenTest {
-
     @get:Rule
     val composeTestRule = createComposeRule()
 
     @Test
-    fun assert_loading_state_dialog_IsShowed()  {
-        val mockState = MutableStateFlow(
-            HomeState(
-                loading = true,
-                isSuccess = false,
-                categories = emptyList(),
-                meals = emptyList()
+    fun assert_loading_state_dialog_IsShowed() {
+        val mockState =
+            MutableStateFlow(
+                HomeState(
+                    loading = true,
+                    isSuccess = false,
+                    categories = emptyList(),
+                    meals = emptyList(),
+                ),
             )
-        )
 
         with(composeTestRule) {
             setContent {
@@ -40,20 +49,20 @@ class HomeScreenTest {
             onNodeWithText(fakeCategoryList[0].categoryName).assertDoesNotExist()
             onNodeWithText("Beef Meals").assertDoesNotExist()
             onNodeWithText(fakeMeals[0].mealName).assertDoesNotExist()
-
         }
     }
 
     @Test
-    fun assert_success_state_dialog_IsNotShowed()  {
-        val mockState = MutableStateFlow(
-            HomeState(
-                loading = false,
-                isSuccess = true,
-                categories = emptyList(),
-                meals = emptyList()
+    fun assert_success_state_dialog_IsNotShowed() {
+        val mockState =
+            MutableStateFlow(
+                HomeState(
+                    loading = false,
+                    isSuccess = true,
+                    categories = emptyList(),
+                    meals = emptyList(),
+                ),
             )
-        )
 
         with(composeTestRule) {
             setContent {
@@ -62,22 +71,21 @@ class HomeScreenTest {
             }
 
             onNodeWithTag(LOADING_DIALOG_TAG).assertDoesNotExist()
-
         }
     }
 
     // TODO:  need to enhance it to use children inside the row
     @Test
     fun assert_success_state_categories_list_IsShowed() {
-
-        val mockState = MutableStateFlow(
-            HomeState(
-                loading = false,
-                isSuccess = true,
-                categories = fakeCategoryList,
-                meals = emptyList()
+        val mockState =
+            MutableStateFlow(
+                HomeState(
+                    loading = false,
+                    isSuccess = true,
+                    categories = fakeCategoryList,
+                    meals = emptyList(),
+                ),
             )
-        )
         with(composeTestRule) {
             setContent {
                 val navController = rememberNavController()
@@ -86,12 +94,16 @@ class HomeScreenTest {
 
             onNodeWithText("Categories").assertExists()
 
-            onNodeWithText(fakeCategoryList[0].categoryName).assertExists()
-            onNodeWithText(fakeCategoryList[1].categoryName).assertExists()
-            onNodeWithText(fakeCategoryList[2].categoryName).assertExists()
+            onNodeWithTag(MAIN_COLUMN).assertIsDisplayed()
+            onNodeWithTag(LAZY_ROW).assertIsDisplayed()
+            onNodeWithTag(LAZY_GRID).assertIsNotDisplayed()
+            onNodeWithTag(CATEGORY_COMPONENT_LAZY_COLUMN.plus(fakeCategoryList[0].categoryName)).assertIsDisplayed()
+            onNodeWithTag(CATEGORY_COMPONENT_LAZY_COLUMN.plus(fakeCategoryList[1].categoryName)).assertIsDisplayed()
+            onNodeWithTag(CATEGORY_COMPONENT_LAZY_COLUMN.plus(fakeCategoryList[2].categoryName)).assertIsDisplayed()
 
-            onNodeWithTag(LOADING_DIALOG_TAG).assertDoesNotExist()
-
+            runTest {
+                delay(DELAY_6000_SEC)
+            }
         }
     }
 

@@ -41,6 +41,7 @@ import coil.request.ImageRequest
 import com.example.task.R
 import com.example.task.common.utils.convertNullToEmpty
 import com.example.task.common.utils.noRippleClickable
+import com.example.task.presentation.ui.home.HomeScreenTestTags.LAZY_GRID
 import com.example.task.ui.theme.colorBlack19
 import com.example.task.ui.theme.colorNotActiveButtonBg
 import com.example.task.ui.theme.colorNotActiveButtonTxt
@@ -49,12 +50,10 @@ import com.example.task.ui.theme.colorYellow
 const val LOADING_DIALOG_TAG = "LoadingIndicator"
 
 @Composable
-fun LoadingDialog(
-    isDialogOpen: Boolean
-) {
+fun LoadingDialog(isDialogOpen: Boolean) {
     if (isDialogOpen) {
         Dialog(
-            onDismissRequest = { /* Dismiss the dialog when back button is pressed or tapped outside */ }
+            onDismissRequest = { /* Dismiss the dialog when back button is pressed or tapped outside */ },
         ) {
             DefaultLoading()
         }
@@ -65,12 +64,11 @@ fun LoadingDialog(
 fun DefaultLoading() {
     Box(
         modifier = Modifier.size(50.dp),
-        contentAlignment = Alignment.Center
+        contentAlignment = Alignment.Center,
     ) {
-
         CircularProgressIndicator(
             modifier = Modifier.testTag(LOADING_DIALOG_TAG),
-            color = colorYellow
+            color = colorYellow,
         )
     }
 }
@@ -82,15 +80,23 @@ private fun LoadingDialogPreview() {
 }
 
 @Composable
-fun MyImageWithCoil(modifier: Modifier, imageUrl: String?,contentScale : ContentScale = ContentScale.Crop) {
+fun MyImageWithCoil(
+    modifier: Modifier,
+    imageUrl: String?,
+    contentScale: ContentScale = ContentScale.Crop,
+) {
     if (imageUrl.convertNullToEmpty().isNotEmpty()) {
-        val painter = rememberAsyncImagePainter(
-            ImageRequest.Builder(LocalContext.current).data(data = imageUrl.convertNullToEmpty())
-                .apply(block = fun ImageRequest.Builder.() {
-                    placeholder(R.drawable.placeholder)
-                    error(R.drawable.placeholder)
-                }).build()
-        )
+        val painter =
+            rememberAsyncImagePainter(
+                ImageRequest
+                    .Builder(LocalContext.current)
+                    .data(data = imageUrl.convertNullToEmpty())
+                    .apply(block = fun ImageRequest.Builder.() {
+                        placeholder(R.drawable.placeholder)
+                        error(R.drawable.placeholder)
+                    })
+                    .build(),
+            )
         Image(
             painter = painter,
             contentDescription = "Image content description",
@@ -107,14 +113,14 @@ fun MyImageWithCoil(modifier: Modifier, imageUrl: String?,contentScale : Content
     }
 }
 
-
 @Preview(showBackground = true)
 @Composable
 private fun MyImageWithCoilPreview() {
     MyImageWithCoil(
-        modifier = Modifier
-            .size(width = 80.dp, height = 52.dp),
-        imageUrl = "url"
+        modifier =
+            Modifier
+                .size(width = 80.dp, height = 52.dp),
+        imageUrl = "url",
     )
 }
 
@@ -123,38 +129,42 @@ fun MyTwoTextStartStartRow(
     modifier: Modifier = Modifier,
     horizontalArrangement: Arrangement.HorizontalOrVertical = Arrangement.spacedBy(2.dp),
     firstTxtText: String,
-    firstStyle: TextStyle = TextStyle(
-        fontSize = 35.sp,
-        fontWeight = FontWeight(800),
-        color = Color(0xFF323136),
-    ),
+    firstStyle: TextStyle =
+        TextStyle(
+            fontSize = 35.sp,
+            fontWeight = FontWeight(800),
+            color = Color(0xFF323136),
+        ),
     secondTxtText: String,
-    secondStyle: TextStyle = TextStyle(
-        fontSize = 25.sp,
-        fontWeight = FontWeight(800),
-        color = Color(0xFF323136)
-    )
+    secondStyle: TextStyle =
+        TextStyle(
+            fontSize = 25.sp,
+            fontWeight = FontWeight(800),
+            color = Color(0xFF323136),
+        ),
 ) {
     Row(
         modifier = modifier,
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = horizontalArrangement
+        horizontalArrangement = horizontalArrangement,
     ) {
         Text(
             text = firstTxtText,
-            style = TextStyle(
-                fontSize = firstStyle.fontSize,
-                fontWeight = firstStyle.fontWeight,
-                color = firstStyle.color,
-            )
+            style =
+                TextStyle(
+                    fontSize = firstStyle.fontSize,
+                    fontWeight = firstStyle.fontWeight,
+                    color = firstStyle.color,
+                ),
         )
         Text(
             text = secondTxtText,
-            style = TextStyle(
-                fontSize = secondStyle.fontSize,
-                fontWeight = secondStyle.fontWeight,
-                color = secondStyle.color
-            )
+            style =
+                TextStyle(
+                    fontSize = secondStyle.fontSize,
+                    fontWeight = secondStyle.fontWeight,
+                    color = secondStyle.color,
+                ),
         )
     }
 }
@@ -175,24 +185,28 @@ fun MyWrapShapeWithContent(
     Row(
         horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterHorizontally),
         verticalAlignment = Alignment.CenterVertically,
-        modifier = modifier
-            .wrapContentWidth()
-            .wrapContentHeight()
-            .clip(shape = RoundedCornerShape(24.dp))
-            .background(color = if (isActive) Color(0xff70AB99) else colorNotActiveButtonBg)
-            .clickable { onClick() }
-            .padding(vertical = 2.dp, horizontal = 8.dp)
+        modifier =
+            modifier
+                .wrapContentWidth()
+                .wrapContentHeight()
+                .clip(shape = RoundedCornerShape(24.dp))
+                .background(color = if (isActive) Color(0xff70AB99) else colorNotActiveButtonBg)
+                .clickable { onClick() }
+                .padding(vertical = 2.dp, horizontal = 8.dp),
     ) {
         Text(
             text = txt,
             color = if (isActive) Color.White else colorNotActiveButtonTxt,
             textAlign = TextAlign.Center,
             lineHeight = 1.5.em,
-            style = TextStyle(
-                fontSize = 14.sp, fontWeight = FontWeight(400)
-            ),
-            modifier = Modifier
-                .wrapContentHeight(align = Alignment.CenterVertically)
+            style =
+                TextStyle(
+                    fontSize = 14.sp,
+                    fontWeight = FontWeight(400),
+                ),
+            modifier =
+                Modifier
+                    .wrapContentHeight(align = Alignment.CenterVertically),
         )
     }
 }
@@ -209,7 +223,11 @@ fun VerticalGrid(
     itemsPerRow: Int,
     modifier: Modifier = Modifier,
 ) {
-    Column(modifier.fillMaxWidth()) {
+    Column(
+        modifier
+            .fillMaxWidth()
+            .testTag(LAZY_GRID),
+    ) {
         composableList
             .chunked(itemsPerRow)
             .forEach { rowComponents ->
@@ -222,9 +240,8 @@ fun VerticalGrid(
 fun RowWithItems(items: List<@Composable () -> Unit>) {
     Row(
         Modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.spacedBy(8.dp)
-    )
-    {
+        horizontalArrangement = Arrangement.spacedBy(8.dp),
+    ) {
         items.forEach { item ->
             Box(Modifier.weight(1f)) {
                 item()
@@ -236,14 +253,15 @@ fun RowWithItems(items: List<@Composable () -> Unit>) {
 @Preview(showBackground = true)
 @Composable
 private fun VerticalGridPreview() {
-    val composableList: List<@Composable () -> Unit> = listOf(
-        { Text(text = "Text 1") },
-        { Text(text = "Text 2") },
-        { Text(text = "Text 3") },
-        { Text(text = "Text 4") },
-        { Text(text = "Text 5") },
-        { Text(text = "Text 6") }
-    )
+    val composableList: List<@Composable () -> Unit> =
+        listOf(
+            { Text(text = "Text 1") },
+            { Text(text = "Text 2") },
+            { Text(text = "Text 3") },
+            { Text(text = "Text 4") },
+            { Text(text = "Text 5") },
+            { Text(text = "Text 6") },
+        )
     VerticalGrid(composableList, 2)
 }
 
@@ -254,29 +272,32 @@ fun MyToolbarArrowWithTitle(
     modifier: Modifier = Modifier,
     titleContentAlignment: Alignment = Alignment.Center,
     titleColor: Color = colorBlack19,
-    titleStyle: TextStyle = TextStyle(
-        fontWeight = FontWeight(600),
-        fontSize = 17.sp
-    ),
-    onclickBack: () -> Unit
+    titleStyle: TextStyle =
+        TextStyle(
+            fontWeight = FontWeight(600),
+            fontSize = 17.sp,
+        ),
+    onclickBack: () -> Unit,
 ) {
     Row(
-        modifier = modifier
-            .fillMaxWidth(),
+        modifier =
+            modifier
+                .fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.SpaceBetween
+        horizontalArrangement = Arrangement.SpaceBetween,
     ) {
         Box(modifier = Modifier.width(48.dp)) {
             Image(
                 painter = painterResource(id = icon ?: R.drawable.ic_baseline_arrow_back_24),
                 contentDescription = "Thumb Up",
-                modifier = Modifier
-                    .noRippleClickable { onclickBack() }
+                modifier =
+                    Modifier
+                        .noRippleClickable { onclickBack() },
             )
         }
         Box(
             modifier = Modifier.weight(1f),
-            contentAlignment = titleContentAlignment
+            contentAlignment = titleContentAlignment,
         ) {
             Text(
                 text = title,
