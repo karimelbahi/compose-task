@@ -15,7 +15,8 @@ import com.example.task.presentation.ui.home.HomeScreenTestTags.LAZY_GRID
 import com.example.task.presentation.ui.home.HomeScreenTestTags.LAZY_ROW
 import com.example.task.presentation.ui.home.HomeScreenTestTags.LAZY_ROW_SPACE
 import com.example.task.presentation.ui.home.HomeScreenTestTags.MAIN_COLUMN
-import com.example.task.presentation.ui.home.components.CATEGORY_COMPONENT_LAZY_COLUMN
+import com.example.task.presentation.ui.home.components.CategoryComponentTestTags.CATEGORY_COMPONENT_LAZY_COLUMN
+import com.example.task.presentation.ui.home.components.CategoryComponentTestTags.MEAL_COMPONENT_GRID_COLUMN
 import com.example.task.utils.DELAY_6000_SEC
 import com.example.task.utils.fakeCategoryList
 import com.example.task.utils.fakeMeals
@@ -42,7 +43,6 @@ class HomeScreenTest {
                     meals = emptyList(),
                 ),
             )
-
         with(composeTestRule) {
             setContent {
                 val navController = rememberNavController()
@@ -67,18 +67,15 @@ class HomeScreenTest {
                     meals = emptyList(),
                 ),
             )
-
         with(composeTestRule) {
             setContent {
                 val navController = rememberNavController()
                 HomeScreen(navController, mockState)
             }
-
             onNodeWithTag(LOADING_DIALOG_TAG).assertDoesNotExist()
         }
     }
 
-    // TODO:  need to enhance it to use children inside the row
     @Test
     fun assert_success_state_categories_list_IsShowed() {
         val mockState =
@@ -95,9 +92,7 @@ class HomeScreenTest {
                 val navController = rememberNavController()
                 HomeScreen(navController, mockState)
             }
-
             onNodeWithText("Categories").assertExists()
-
             onNodeWithTag(MAIN_COLUMN).assertIsDisplayed()
             onNodeWithTag(LAZY_ROW).assertIsDisplayed()
             onNodeWithTag(LAZY_GRID).assertIsNotDisplayed()
@@ -119,7 +114,6 @@ class HomeScreenTest {
         }
     }
 
-    // TODO:  need to enhance it to use children inside the column
     @Test
     fun assert_success_state_meals_list_IsShowed() {
         val mockState =
@@ -131,18 +125,22 @@ class HomeScreenTest {
                     meals = fakeMeals,
                 ),
             )
-
         with(composeTestRule) {
             setContent {
                 val navController = rememberNavController()
                 HomeScreen(navController, mockState)
             }
-
             onNodeWithText("Beef Meals").assertExists()
-            onNodeWithText(fakeMeals[0].mealName).assertExists()
-            onNodeWithText(fakeMeals[1].mealName).assertExists()
-            onNodeWithText(fakeMeals[2].mealName).assertExists()
-
+            onNodeWithTag(LAZY_GRID).assertIsDisplayed()
+            onNodeWithTag(LAZY_GRID)
+                .onChildAt(0)
+                .assert(hasTestTag(MEAL_COMPONENT_GRID_COLUMN.plus(fakeMeals[0].mealName)))
+            onNodeWithTag(LAZY_GRID)
+                .onChildAt(1)
+                .assert(hasTestTag(MEAL_COMPONENT_GRID_COLUMN.plus(fakeMeals[1].mealName)))
+            onNodeWithTag(LAZY_GRID)
+                .onChildAt(2)
+                .assert(hasTestTag(MEAL_COMPONENT_GRID_COLUMN.plus(fakeMeals[2].mealName)))
             onNodeWithTag(LOADING_DIALOG_TAG).assertDoesNotExist()
         }
     }

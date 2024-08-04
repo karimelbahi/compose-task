@@ -37,8 +37,13 @@ import com.example.task.common.component.MyWrapShapeWithContent
 import com.example.task.common.utils.noRippleClickable
 import com.example.task.data.api.model.Category
 import com.example.task.data.api.model.Meal
+import com.example.task.presentation.ui.home.components.CategoryComponentTestTags.CATEGORY_COMPONENT_LAZY_COLUMN
+import com.example.task.presentation.ui.home.components.CategoryComponentTestTags.MEAL_COMPONENT_GRID_COLUMN
 
-const val CATEGORY_COMPONENT_LAZY_COLUMN = "CATEGORY_COMPONENT_LAZY_COLUMN"
+object CategoryComponentTestTags {
+    const val CATEGORY_COMPONENT_LAZY_COLUMN = "CATEGORY_COMPONENT_LAZY_COLUMN"
+    const val MEAL_COMPONENT_GRID_COLUMN = "MEAL_COMPONENT_GRID_COLUMN"
+}
 
 @Composable
 fun CategoryComponent(
@@ -108,7 +113,8 @@ fun MealComponent(
                     border = BorderStroke(2.dp, Color(0xffdfdfdf)),
                     shape = RoundedCornerShape(16.dp),
                 ).noRippleClickable { onClick.invoke() }
-                .padding(bottom = 16.dp),
+                .padding(bottom = 16.dp)
+                .testTag(MEAL_COMPONENT_GRID_COLUMN.plus(meal.mealName)),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(8.dp),
     ) {
